@@ -20,8 +20,6 @@ public interface CommonConstants {
 	int ORDER_COMPLETED = 4;
 	int ORDER_CANCELED_BY_CUSTOMER = 5;
 	int ORDER_CANCELED_BY_RETAILER = 6;
-	
-	
 
 	
 }

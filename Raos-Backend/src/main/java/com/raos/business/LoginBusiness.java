@@ -1,17 +1,12 @@
 package com.raos.business;
 
 
-import java.util.List;
-import java.util.Optional;
-
-import org.checkerframework.checker.units.qual.m;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import com.raos.constants.CommonConstants;
 import com.raos.logger.ConfigProperties;
 import com.raos.logger.CommonLogger;
 import com.raos.model.CommonDataResponse;
@@ -22,9 +17,6 @@ import com.raos.model.UserDeviceToken;
 import com.raos.service.CustomerService;
 import com.raos.service.OtpService;
 import com.raos.service.UserDeviceTokenService;
-import com.raos.util.DESEncryptor;
-
-import io.swagger.v3.core.util.Json;
 
 @Component
 public class LoginBusiness {
@@ -57,7 +49,7 @@ public class LoginBusiness {
 	
 	
 	@SuppressWarnings("unchecked")
-	public ResponseEntity loginCustomer(String mobileNum)
+	public Object loginCustomer(String mobileNum)
 	{
 		LOGGER.info(this.getClass(),"LOGIN CUSTOMER BUSINESS LAYER");
 		Customer customer = new Customer();
@@ -90,7 +82,8 @@ public class LoginBusiness {
 
 	}
 
-	public ResponseEntity verifyCustomerLogin(int customer_id, String otp, String device_token, int device_type) {
+	@SuppressWarnings("unchecked")
+	public Object verifyCustomerLogin(int customer_id, String otp, String device_token, int device_type) {
 		LOGGER.info(this.getClass(),"OTP VERIFICATION BUSINESS LAYER");
 		if(otpService.getOtp(String.valueOf(customer_id)) == Integer.valueOf(otp))
 		{

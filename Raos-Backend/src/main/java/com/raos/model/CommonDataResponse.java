@@ -14,5 +14,6 @@ public class CommonDataResponse {
 
 	public String status;
 	public String message;
+	@SuppressWarnings("rawtypes")
 	public List data;
 }
