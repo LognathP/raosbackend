@@ -4,23 +4,23 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.raos.model.CustomerProfile;
+import com.raos.model.OrderDetails;
 import com.raos.model.Product;
 import com.raos.model.Customer;
 import com.raos.model.CustomerAddress;
 import com.raos.request.AddAddressRequest;
+import com.raos.request.OrderFilter;
+import com.raos.request.OrderRequest;
 
 @Service
-public interface ProductService {
+public interface OrderService {
 	
-	public List<Object> getCategory();
+	public boolean placeOrder(OrderRequest orderReq);
 
-	public List<Object> getSubCategory(int categoryId);
+	public boolean updateOrderStatus(int orderId, int orderStatus);
 
-	public List<Product> getProducts(int subCategoryId);
-
-	void save(MultipartFile file);
+	public List<OrderDetails> getOrderDetails(OrderFilter orderFilter);
 
 }

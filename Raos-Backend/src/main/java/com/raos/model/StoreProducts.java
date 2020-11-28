@@ -5,15 +5,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Product {
+public class StoreProducts {
 
 	int product_id;
 	String product_name;
+	String category_name;
+	String subCategory_name;
+	int status;
 	int discount_flag;
-	int unit_metrics;
-	int mrp_price;
-	int sales_price;
-	int balance_stock;
-	String image_url;
-	
+	String imgUrl;
 }

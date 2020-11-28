@@ -124,6 +124,7 @@ public class ProductDaoImpl implements ProductDao {
 				p.setBalance_stock(res.getInt(5));
 				p.setMrp_price(res.getInt(6));
 				p.setSales_price(res.getInt(7));
+				p.setImage_url(res.getString(8));
 				prodList.add(p);
 			}
 
