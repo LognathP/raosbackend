@@ -17,10 +17,10 @@ public interface ProductService {
 	
 	public List<Object> getCategory();
 
-	public List<Object> getSubCategory(int categoryId);
+	//public List<Object> getSubCategory(int categoryId);
 
-	public List<Product> getProducts(int subCategoryId);
+	public List<Product> getProducts(int categoryId);
 
-	void save(MultipartFile file);
+	
 
 }

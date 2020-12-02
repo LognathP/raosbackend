@@ -28,15 +28,15 @@ private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:s
 		Logger.info(this.getClass(),"GET CATEGORY API CALL STARTED AT "+dateFormat.format(new Date()));
 		return productBusiness.getCategory();
 	}
-	@PostMapping("/api/product/getsubcategory")
-	public Object getSubCategory(@RequestParam int categoryId) {
-		Logger.info(this.getClass(),"GET SUB CATEGORY API CALL STARTED AT "+dateFormat.format(new Date()));
-		return productBusiness.getSubCategory(categoryId);
-	}
+//	@PostMapping("/api/product/getsubcategory")
+//	public Object getSubCategory(@RequestParam int categoryId) {
+//		Logger.info(this.getClass(),"GET SUB CATEGORY API CALL STARTED AT "+dateFormat.format(new Date()));
+//		return productBusiness.getSubCategory(categoryId);
+//	}
 	@PostMapping("/api/product/getproducts")
-	public Object getProducts(@RequestParam int subCategoryId) {
+	public Object getProducts(@RequestParam int categoryId) {
 		Logger.info(this.getClass(),"GET PRODUCTS API CALL STARTED AT "+dateFormat.format(new Date()));
-		return productBusiness.getProducts(subCategoryId);
+		return productBusiness.getProducts(categoryId);
 	}
 	
 	

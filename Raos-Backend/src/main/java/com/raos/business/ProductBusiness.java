@@ -63,24 +63,24 @@ public class ProductBusiness {
 		}
 	}
 
-	public Object getSubCategory(int categoryId) {
-		List<Object> sclist  = productService.getSubCategory(categoryId);
-		if (sclist.size() > 0) {
-			LOGGER.info(this.getClass(), "SUB CATEGORIES LISTED SUCCESSFULLY");
-			commonSingleResponse.setStatus(HttpStatus.OK.toString());
-			commonSingleResponse.setMessage("Sub Categories Listed Successfully");
-			commonSingleResponse.setData(sclist);
-			return new ResponseEntity<CommonSingleResponse>(commonSingleResponse, HttpStatus.OK);
-		} else {
-			LOGGER.error(this.getClass(), "NO SUB CATEGORIES NOT FOUND");
-			commonResponse.setStatus(HttpStatus.NOT_FOUND.toString());
-			commonResponse.setMessage("No Sub Categories found");
-			return new ResponseEntity<CommonResponse>(commonResponse, HttpStatus.OK);
-		}
-	}
+//	public Object getSubCategory(int categoryId) {
+//		List<Object> sclist  = productService.getSubCategory(categoryId);
+//		if (sclist.size() > 0) {
+//			LOGGER.info(this.getClass(), "SUB CATEGORIES LISTED SUCCESSFULLY");
+//			commonSingleResponse.setStatus(HttpStatus.OK.toString());
+//			commonSingleResponse.setMessage("Sub Categories Listed Successfully");
+//			commonSingleResponse.setData(sclist);
+//			return new ResponseEntity<CommonSingleResponse>(commonSingleResponse, HttpStatus.OK);
+//		} else {
+//			LOGGER.error(this.getClass(), "NO SUB CATEGORIES NOT FOUND");
+//			commonResponse.setStatus(HttpStatus.NOT_FOUND.toString());
+//			commonResponse.setMessage("No Sub Categories found");
+//			return new ResponseEntity<CommonResponse>(commonResponse, HttpStatus.OK);
+//		}
+//	}
 
-	public Object getProducts(int subCategoryId) {
-		List<Product> plist  = productService.getProducts(subCategoryId);
+	public Object getProducts(int categoryId) {
+		List<Product> plist  = productService.getProducts(categoryId);
 		if (plist.size() > 0) {
 			LOGGER.info(this.getClass(), "PRODUCTS LISTED SUCCESSFULLY");
 			commonSingleResponse.setStatus(HttpStatus.OK.toString());

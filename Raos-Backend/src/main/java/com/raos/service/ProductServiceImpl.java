@@ -27,33 +27,21 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	ProductDao productDao;
 	
-	@Autowired
-	ProductsRepository productRepo;
+	
 
 	@Override
 	public List<Object> getCategory() {
 		return productDao.getCategory();
 	}
+//	@Override
+//	public List<Object> getSubCategory(int categoryId) {
+//		return productDao.getSubCategory(categoryId);
+//	}
 	@Override
-	public List<Object> getSubCategory(int categoryId) {
-		return productDao.getSubCategory(categoryId);
-	}
-	@Override
-	public List<Product> getProducts(int subCategoryId) {
-		return productDao.getProducts(subCategoryId);
+	public List<Product> getProducts(int categoryId) {
+		return productDao.getProducts(categoryId);
 	}
 	
-	@Override
-    public void save(MultipartFile file) {
-	    try {
-	      List<ProductUpload> products = CSVHelper.csvToProducts(file.getInputStream());
-	      productRepo.saveAll(products);
-	    } catch (Exception e) {
-	      LOGGER.info(this.getClass(),"FAILED TO STORE CSV " + e.getMessage());
-	      throw new RuntimeException("FAILED TO STORE CSV " + e.getMessage());
-	    
-	    }
-	  }
 		
 
 

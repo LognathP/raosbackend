@@ -14,7 +14,7 @@ public interface ProductDao {
 	
 	public List<Object> getCategory();
 
-	public List<Object> getSubCategory(int categoryId);
+	//public List<Object> getSubCategory(int categoryId);
 
 	public List<Product> getProducts(int subCategoryId);
 	

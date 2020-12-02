@@ -44,9 +44,10 @@ public class ProductDaoImpl implements ProductDao {
 			preStmt = connection.prepareStatement(ProductQueryConstants.GET_CATEGORY);
 			res = preStmt.executeQuery();
 			while(res.next()) {
-				Object ob [] = new Object[2];
+				Object ob [] = new Object[3];
 				ob[0] = res.getString(1);
 				ob[1] = res.getString(2);
+				ob[2] = res.getString(3);
 				categ.add(ob);
 			}
 
@@ -67,44 +68,44 @@ public class ProductDaoImpl implements ProductDao {
 		return categ;
 	}
 	
-	@Override
-	public List<Object> getSubCategory(int categoryId) {
-		Connection connection = null;
-		PreparedStatement preStmt = null;
-		ResultSet res = null;
-		
-		List<Object> subCateg = new ArrayList<>();
-		try {
-			connection = jdbctemp.getDataSource().getConnection();
-			preStmt = connection.prepareStatement(ProductQueryConstants.GET_SUB_CATEGORY);
-			preStmt.setInt(1, categoryId);
-			res = preStmt.executeQuery();
-			while(res.next()) {
-				Object ob [] = new Object[2];
-				ob[0] = res.getString(1);
-				ob[1] = res.getString(2);
-				subCateg.add(ob);
-			}
-
-		} catch (Exception e) {
-			LOGGER.debug(this.getClass(), "ERROR IN DB WHILE getSubCategory " + e.getMessage());
-			e.printStackTrace();
-		} finally {
-			try {
-				preStmt.close();
-				connection.close();
-				res.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-				LOGGER.error(this.getClass(), "ERROR IN DB WHILE CLOSING DB ON getSubCategory " + e.getMessage());
-			}
-
-		}
-		return subCateg;
-	}
+//	@Override
+//	public List<Object> getSubCategory(int categoryId) {
+//		Connection connection = null;
+//		PreparedStatement preStmt = null;
+//		ResultSet res = null;
+//		
+//		List<Object> subCateg = new ArrayList<>();
+//		try {
+//			connection = jdbctemp.getDataSource().getConnection();
+//			preStmt = connection.prepareStatement(ProductQueryConstants.GET_SUB_CATEGORY);
+//			preStmt.setInt(1, categoryId);
+//			res = preStmt.executeQuery();
+//			while(res.next()) {
+//				Object ob [] = new Object[2];
+//				ob[0] = res.getString(1);
+//				ob[1] = res.getString(2);
+//				subCateg.add(ob);
+//			}
+//
+//		} catch (Exception e) {
+//			LOGGER.debug(this.getClass(), "ERROR IN DB WHILE getSubCategory " + e.getMessage());
+//			e.printStackTrace();
+//		} finally {
+//			try {
+//				preStmt.close();
+//				connection.close();
+//				res.close();
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//				LOGGER.error(this.getClass(), "ERROR IN DB WHILE CLOSING DB ON getSubCategory " + e.getMessage());
+//			}
+//
+//		}
+//		return subCateg;
+//	}
 	
 	@Override
-	public List<Product> getProducts(int subCategoryId) {
+	public List<Product> getProducts(int categoryId) {
 		Connection connection = null;
 		PreparedStatement preStmt = null;
 		ResultSet res = null;
@@ -113,7 +114,10 @@ public class ProductDaoImpl implements ProductDao {
 		try {
 			connection = jdbctemp.getDataSource().getConnection();
 			preStmt = connection.prepareStatement(ProductQueryConstants.GET_PRODUCTS);
-			preStmt.setInt(1, subCategoryId);
+			preStmt.setInt(1, categoryId);
+			preStmt.setInt(2, categoryId);
+			preStmt.setInt(3, categoryId);
+
 			res = preStmt.executeQuery();
 			while(res.next()) {
 				Product p = new Product();
