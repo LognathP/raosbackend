@@ -20,5 +20,7 @@ public interface OrderDao {
 	public boolean updateOrderStatus(int orderId, int orderStatus);
 
 	public List<OrderDetails> getOrderDetails(OrderFilter orderFilter);
+
+	public boolean voucherUsageCheck(int customerId, int voucherId);
 	
 	}

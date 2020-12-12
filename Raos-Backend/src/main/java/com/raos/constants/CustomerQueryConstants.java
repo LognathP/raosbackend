@@ -21,6 +21,8 @@ public interface CustomerQueryConstants {
 	String GET_CUSTOMER_PROFILE = "select firstname,lastname,dob,email,mobileno from customers where id = ?";
 	
 	String UPDATED_CUSTOMER_PROFILE = "update customers set firstname=?,lastname=?,dob=?,email=?,mobileno=? where id = ?";
+	
+	String PINCODE_CHECK = "select count(1) from pincode where pincode=?";
 
 	
 	}

@@ -11,4 +11,5 @@ public class OrderDelivery {
 	public String name;
 	public String lat;
 	public String lng;
+	public String pincode;
 }

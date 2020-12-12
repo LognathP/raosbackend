@@ -52,17 +52,34 @@ public class OrderBusiness {
 
 
 	public Object placeOrder(OrderRequest orderReq) {
-		if (orderService.placeOrder(orderReq)) {
-			LOGGER.info(this.getClass(), "ORDER PLACED SUCCESSFULLY");
-			commonResponse.setStatus(HttpStatus.OK.toString());
-			commonResponse.setMessage("Order Placed Successfully");
-			return new ResponseEntity<CommonResponse>(commonResponse, HttpStatus.OK);
-		} else {
-			LOGGER.error(this.getClass(), "UNABLE TO PLACE ORDER");
-			commonResponse.setStatus(HttpStatus.NOT_FOUND.toString());
-			commonResponse.setMessage("Unable to Place Order");
+		boolean voucherUsage = false;
+		if(orderReq.getVoucher_id()!=0)
+		{
+			voucherUsage = orderService.voucherUsageCheck(orderReq.getCustomer_id(), orderReq.getVoucher_id());
+		}
+		if(!voucherUsage)
+		{
+			if (orderService.placeOrder(orderReq)) {
+				LOGGER.info(this.getClass(), "ORDER PLACED SUCCESSFULLY");
+				commonResponse.setStatus(HttpStatus.OK.toString());
+				commonResponse.setMessage("Order Placed Successfully");
+				return new ResponseEntity<CommonResponse>(commonResponse, HttpStatus.OK);
+			} else {
+				LOGGER.error(this.getClass(), "UNABLE TO PLACE ORDER");
+				commonResponse.setStatus(HttpStatus.NOT_FOUND.toString());
+				commonResponse.setMessage("Unable to Place Order");
+				return new ResponseEntity<CommonResponse>(commonResponse, HttpStatus.OK);
+			}
+		}
+		else
+		{
+			LOGGER.error(this.getClass(), "VOUCHER ALREADY USED");
+			commonResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.toString());
+			commonResponse.setMessage("Voucher Already Used");
 			return new ResponseEntity<CommonResponse>(commonResponse, HttpStatus.OK);
 		}
+		
+		
 	}
 
 	public Object updateOrderStatus(int orderId,int orderStatus) {

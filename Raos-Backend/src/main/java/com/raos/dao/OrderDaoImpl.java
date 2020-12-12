@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 import com.raos.constants.CommonConstants;
 import com.raos.constants.OrderQueryConstants;
 import com.raos.logger.CommonLogger;
+import com.raos.model.DeliveryTimeSlot;
 import com.raos.model.OrderDelivery;
 import com.raos.model.OrderDetails;
 import com.raos.model.OrderItems;
@@ -50,6 +51,10 @@ public class OrderDaoImpl implements OrderDao {
 			int orderId = insertOrderTable(connection,orderReq);
 			if(orderId>0)
 			{
+				if(orderReq.getVoucher_id()!=0)
+				{
+					insertVoucherUsageTable(connection, orderReq, orderId);
+				}
 				List<OrderItems> olist = orderReq.getOrder_items();
 				for (OrderItems orderItemsRequest : olist) {
 					itemTableInsrt = insertOrderItemTable(connection, orderReq, orderId,orderItemsRequest);
@@ -84,18 +89,25 @@ public class OrderDaoImpl implements OrderDao {
 		return flag;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public int insertOrderTable(Connection connection,OrderRequest orderReq)
 	{
 		PreparedStatement preStmt = null;
 		int insert = 0;
 		ResultSet res = null;
 		int id = 0;
+			JSONObject jo = new JSONObject();
+			jo.put("from", orderReq.getDeliveryTimeSlot().getFrom());
+			jo.put("to",orderReq.getDeliveryTimeSlot().getTo());
+		
 		try {
 			preStmt = connection.prepareStatement(OrderQueryConstants.INSERT_ORDER_TABLE,new String[] {"order_id"});
 			preStmt.setInt(1, orderReq.getCustomer_id());
 			preStmt.setDouble(2, orderReq.getOrder_total());
 			preStmt.setDouble(3, orderReq.getOrder_grand_total());
 			preStmt.setInt(4, CommonConstants.ORDER_INITIATED);
+			preStmt.setInt(5, orderReq.getVoucher_id());
+			preStmt.setString(6, jo.toString());
 			insert = preStmt.executeUpdate();
 			if(insert > 0)
 			{
@@ -104,6 +116,7 @@ public class OrderDaoImpl implements OrderDao {
 				{
 					id = res.getInt(1);
 				}
+				
 			}
 		} catch (Exception e) {
 			LOGGER.debug(this.getClass(), "ERROR IN DB WHILE insertOrderTable " + e.getMessage());
@@ -166,6 +179,7 @@ public class OrderDaoImpl implements OrderDao {
 			preStmt.setString(2, ja.toString());
 			preStmt.setInt(3, orderId);
 			preStmt.setInt(4, orderReq.getCustomer_id());
+			preStmt.setString(5, orderReq.getOrderDelivery().getPincode());
 			insert = preStmt.executeUpdate();
 			
 		} catch (Exception e) {
@@ -182,6 +196,32 @@ public class OrderDaoImpl implements OrderDao {
 
 		}
 		return insert;
+	}
+	
+	public void insertVoucherUsageTable(Connection connection,OrderRequest orderReq,int orderId)
+	{
+		PreparedStatement preStmt = null;
+		try {
+			
+			preStmt = connection.prepareStatement(OrderQueryConstants.INSERT_VOUCHER_USAGE);
+			preStmt.setInt(1, orderReq.getCustomer_id());
+			preStmt.setInt(2, orderReq.getVoucher_id());
+			preStmt.setInt(3, orderId);
+			preStmt.executeUpdate();
+			
+		} catch (Exception e) {
+			LOGGER.debug(this.getClass(), "ERROR IN DB WHILE insertVoucherUsageTable " + e.getMessage());
+			e.printStackTrace();
+		} 
+		finally {
+			try {
+				preStmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				LOGGER.error(this.getClass(), "ERROR IN DB WHILE CLOSING DB insertVoucherUsageTable " + e.getMessage());
+			}
+
+		}
 	}
 	
 	@Override
@@ -260,10 +300,12 @@ public class OrderDaoImpl implements OrderDao {
 				od.setCustomer_id(rs.getInt("customer_id"));
 				od.setOrder_status(rs.getInt("order_status"));
 				od.setOrder_total(rs.getDouble("order_total"));
+				od.setVoucher_id(rs.getInt("voucher_id"));
 				od.setOrder_grand_total(rs.getDouble("order_grand_total"));
 				od.setOrder_date(rs.getString("created"));
 				OrderDelivery odl = new OrderDelivery();
 				odl.setAddress_type(rs.getInt("address_type"));
+				odl.setPincode(rs.getString("pincode"));
 				Gson gson = new Gson(); 
 				OrderDelivery[] adarray = gson.fromJson(rs.getString("address_location"), OrderDelivery[].class); 
 				for(OrderDelivery df : adarray) {
@@ -308,6 +350,45 @@ public class OrderDaoImpl implements OrderDao {
 
 		}
 		return ol;
+	}
+	
+	@Override
+	public boolean voucherUsageCheck(int customerId, int voucherId) {
+		Connection connection = null;
+		PreparedStatement preStmt = null;
+		ResultSet rs = null;
+		boolean stat = false;
+		try {
+			connection = jdbctemp.getDataSource().getConnection();
+     		preStmt = connection.prepareStatement(OrderQueryConstants.VOUCHER_USAGE_QUERY);
+			preStmt.setInt(1, customerId);
+			preStmt.setInt(2, voucherId);
+			rs = preStmt.executeQuery();
+			while(rs.next())
+			{
+				if(rs.getInt(1)>0)
+				{
+					stat = true;
+				}
+			}
+			
+			
+
+		} catch (Exception e) {
+			LOGGER.debug(this.getClass(), "ERROR IN DB WHILE voucherUsageCheck " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				preStmt.close();
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				LOGGER.error(this.getClass(), "ERROR IN DB WHILE CLOSING DB voucherUsageCheck " + e.getMessage());
+			}
+
+		}
+		return stat;
 	}
 
 

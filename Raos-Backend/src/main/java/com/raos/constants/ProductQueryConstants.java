@@ -2,7 +2,7 @@ package com.raos.constants;
 
 public interface ProductQueryConstants {
 	
-	String GET_CATEGORY = "select category_id,category_name,category_alias_name from category";
+	String GET_CATEGORY = "select category_id,category_name,category_alias_name from category where category_alias_name = ?";
 	
 	//String GET_SUB_CATEGORY = "select subcategory_id,subcategory_name from subcategory where category_id=?";
 	

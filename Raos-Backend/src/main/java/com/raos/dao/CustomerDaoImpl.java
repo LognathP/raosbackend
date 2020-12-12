@@ -300,6 +300,42 @@ public class CustomerDaoImpl implements CustomerDao {
 		}
 		return stat;
 	}
+
+
+	@Override
+	public boolean checkDeliveryAvailability(String pinCode) {
+		Connection connection = null;
+		PreparedStatement preStmt = null;
+		ResultSet res = null;
+		boolean stat = false;
+		try {
+			connection = jdbctemp.getDataSource().getConnection();
+			preStmt = connection.prepareStatement(CustomerQueryConstants.PINCODE_CHECK);
+			preStmt.setString(1, pinCode);
+			res = preStmt.executeQuery();
+			while(res.next()) {
+				if(res.getInt(1)>0)
+				{
+					stat = true;
+				}
+			}
+
+		} catch (Exception e) {
+			LOGGER.debug(this.getClass(), "ERROR IN DB WHILE checkDeliveryAvailability " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				preStmt.close();
+				connection.close();
+				res.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				LOGGER.error(this.getClass(), "ERROR IN DB WHILE CLOSING DB ON checkDeliveryAvailability " + e.getMessage());
+			}
+
+		}
+		return stat;
+	}
 	
 	
 	

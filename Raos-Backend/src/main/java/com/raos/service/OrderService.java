@@ -23,4 +23,5 @@ public interface OrderService {
 
 	public List<OrderDetails> getOrderDetails(OrderFilter orderFilter);
 
+	public boolean voucherUsageCheck(int customerId,int voucherId);
 }

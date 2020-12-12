@@ -29,4 +29,6 @@ public interface CustomerService {
 	
 	public CustomerProfile getCustomerProfile(int customer_id);
 
+	public boolean checkDeliveryAvailability(String pinCode);
+
 }

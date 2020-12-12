@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import com.raos.RaosApplication;
+import com.raos.constants.CommonConstants;
 import com.raos.constants.CustomerQueryConstants;
 import com.raos.constants.ProductQueryConstants;
 import com.raos.logger.CommonLogger;
@@ -42,6 +44,7 @@ public class ProductDaoImpl implements ProductDao {
 		try {
 			connection = jdbctemp.getDataSource().getConnection();
 			preStmt = connection.prepareStatement(ProductQueryConstants.GET_CATEGORY);
+			preStmt.setString(1, CommonConstants.CATEGORY1);
 			res = preStmt.executeQuery();
 			while(res.next()) {
 				Object ob [] = new Object[3];

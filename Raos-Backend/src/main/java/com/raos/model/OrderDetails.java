@@ -14,7 +14,7 @@ public class OrderDetails {
 	int order_status;
 	double order_total;
 	double order_grand_total;
-	int offer_id;
+	int voucher_id;
 	List<OrderItemsDetails> order_item_details;
 	OrderDelivery orderDelivery;
 	String order_date;

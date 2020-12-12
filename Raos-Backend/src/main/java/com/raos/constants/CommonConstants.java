@@ -22,5 +22,9 @@ public interface CommonConstants {
 	int ORDER_CANCELED_BY_RETAILER = 6;
 	
 	String dateTimeFormat = "YYYY-MM-DD HH24:MI:SS.MS";
+
+	String CATEGORY1 = "MIH_CATEGORY_1";
+	String CATEGORY2 = "MIH_CATEGORY_2";
+	String CATEGORY3 = "MIH_CATEGORY_3";
 	
 }

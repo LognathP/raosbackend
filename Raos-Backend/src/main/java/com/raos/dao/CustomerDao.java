@@ -25,4 +25,6 @@ public interface CustomerDao {
 
 	boolean updateCustomerProfile(CustomerProfile custProf);
 
+	public boolean checkDeliveryAvailability(String pinCode);
+
 	}

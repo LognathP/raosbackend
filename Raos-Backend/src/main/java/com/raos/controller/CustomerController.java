@@ -57,6 +57,13 @@ private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:s
 		return customerBusiness.updateCustomerProfile(cpf);
 	}
 
+	@PostMapping("/api/customer/checkavailablity")
+	public Object checkDeliveryAvailability(@RequestParam String pinCode) {
+		Logger.info(this.getClass(),"CHECK DELIVERY AVAILABILITY API CALL STARTED AT "+dateFormat.format(new Date()));
+		return customerBusiness.checkDeliveryAvailability(pinCode);
+	}
+
+	
 
 	
 }

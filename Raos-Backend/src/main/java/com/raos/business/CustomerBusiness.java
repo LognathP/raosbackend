@@ -153,6 +153,22 @@ public class CustomerBusiness {
 		
 	}
 
+	public Object checkDeliveryAvailability(String pinCode) {
+		ResponseEntity<?> resp = null;
+		if (customerService.checkDeliveryAvailability(pinCode)) {
+			LOGGER.info(this.getClass(), "DELIVERY AVAILABLE");
+			commonResponse.setStatus(HttpStatus.OK.toString());
+			commonResponse.setMessage("Delivery Available");
+			resp = new ResponseEntity<CommonResponse>(commonResponse, HttpStatus.OK);
+		} else {
+			LOGGER.error(this.getClass(), "DELIVERY NOT AVAILABLE");
+			commonResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.toString());
+			commonResponse.setMessage("Delivery Available");
+			resp = new ResponseEntity<CommonResponse>(commonResponse, HttpStatus.OK);
+		}
+		return resp;
+	}
+
 
 	
 }

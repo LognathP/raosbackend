@@ -99,6 +99,11 @@ public class CustomerServiceImpl implements CustomerService {
 	public boolean updateCustomerProfile(CustomerProfile cpf) {
 			return customerDao.updateCustomerProfile(cpf);
 	}
+
+	@Override
+	public boolean checkDeliveryAvailability(String pinCode) {
+		return customerDao.checkDeliveryAvailability(pinCode);
+	}
 	
 
 

@@ -43,6 +43,10 @@ public class OrderServiceImpl implements OrderService {
 		return orderDao.getOrderDetails(orderFilter);
 	}
 		
+	@Override
+	public boolean voucherUsageCheck(int customerId,int voucherId) {
+		return orderDao.voucherUsageCheck(customerId,voucherId);
+	}
 
 
 
