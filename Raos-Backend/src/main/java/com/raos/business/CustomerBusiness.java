@@ -120,7 +120,7 @@ public class CustomerBusiness {
 	public Object getCustomerProfile(int customer_id) {
 		ResponseEntity<?> resp = null;
 		CustomerProfile cPf = customerService.getCustomerProfile(customer_id);
-		if (cPf != null) {
+		if (cPf.getCustomer_id() != 0) {
 			LOGGER.info(this.getClass(), "CUSTOMER PROFILE RETRIEVED SUCCESSFULLY");
 			commonSingleResponse.setStatus(HttpStatus.OK.toString());
 			commonSingleResponse.setMessage("Customer Profile retreived Successfully");
