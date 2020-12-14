@@ -70,7 +70,7 @@ public class CustomerDaoImpl implements CustomerDao {
 			connection = jdbctemp.getDataSource().getConnection();
 			preStmt = connection.prepareStatement(CustomerQueryConstants.CUSOMER_ADDRESS_INSERT,new String[] {"id"});
 			preStmt.setInt(1, req.getCustomer_id());
-			preStmt.setString(2, req.getAddress_type());
+			preStmt.setInt(2, req.getAddress_type());
 			preStmt.setString(3,req.getDoor_no());
 			preStmt.setString(4,req.getStreet_name());
 			preStmt.setString(5,req.getPincode());
@@ -79,7 +79,6 @@ public class CustomerDaoImpl implements CustomerDao {
 			preStmt.setString(8, req.getCountry());
 			preStmt.setString(9, req.getLatitude());
 			preStmt.setString(10, req.getLongitude());
-			preStmt.executeUpdate();
 			if(preStmt.executeUpdate() > 0)
 			{
 				res = preStmt.getGeneratedKeys();
@@ -115,7 +114,7 @@ public class CustomerDaoImpl implements CustomerDao {
 			connection = jdbctemp.getDataSource().getConnection();
 			preStmt = connection.prepareStatement(CustomerQueryConstants.CUSTOMER_ADDRESS_UPDATE);
 			preStmt.setInt(1, req.getCustomer_id());
-			preStmt.setString(2, req.getAddress_type());
+			preStmt.setInt(2, req.getAddress_type());
 			preStmt.setString(3,req.getDoor_no());
 			preStmt.setString(4,req.getStreet_name());
 			preStmt.setString(5,req.getPincode());
@@ -125,7 +124,6 @@ public class CustomerDaoImpl implements CustomerDao {
 			preStmt.setString(9, req.getLatitude());
 			preStmt.setString(10, req.getLongitude());
 			preStmt.setInt(11, address_id);
-			preStmt.executeUpdate();
 			if(preStmt.executeUpdate() > 0)
 			{
 				stat = true;
@@ -156,7 +154,6 @@ public class CustomerDaoImpl implements CustomerDao {
 			connection = jdbctemp.getDataSource().getConnection();
 			preStmt = connection.prepareStatement(CustomerQueryConstants.CUSTOMER_ADDRESS_DELETE);
 			preStmt.setInt(1, address_id);
-			preStmt.executeUpdate();
 			if(preStmt.executeUpdate() > 0)
 			{
 				stat = true;
@@ -279,7 +276,6 @@ public class CustomerDaoImpl implements CustomerDao {
 			preStmt.setString(4, custProf.getCustomers_email_address());
 			preStmt.setString(5, custProf.getCustomers_telephone());
 			preStmt.setInt(6, custProf.getCustomer_id());
-			preStmt.executeUpdate();
 			if(preStmt.executeUpdate() > 0)
 			{
 				stat = true;

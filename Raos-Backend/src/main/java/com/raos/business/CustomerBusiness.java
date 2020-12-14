@@ -163,7 +163,7 @@ public class CustomerBusiness {
 		} else {
 			LOGGER.error(this.getClass(), "DELIVERY NOT AVAILABLE");
 			commonResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.toString());
-			commonResponse.setMessage("Delivery Available");
+			commonResponse.setMessage("Delivery Not Available");
 			resp = new ResponseEntity<CommonResponse>(commonResponse, HttpStatus.OK);
 		}
 		return resp;

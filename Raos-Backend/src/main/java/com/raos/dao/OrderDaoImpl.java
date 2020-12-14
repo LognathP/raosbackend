@@ -58,6 +58,7 @@ public class OrderDaoImpl implements OrderDao {
 				List<OrderItems> olist = orderReq.getOrder_items();
 				for (OrderItems orderItemsRequest : olist) {
 					itemTableInsrt = insertOrderItemTable(connection, orderReq, orderId,orderItemsRequest);
+					updateStocksTable(connection, orderItemsRequest);
 					itemCount = itemCount+itemTableInsrt;
 				}
 				if(olist.size()==itemCount)
@@ -156,6 +157,33 @@ public class OrderDaoImpl implements OrderDao {
 			} catch (SQLException e) {
 				e.printStackTrace();
 				LOGGER.error(this.getClass(), "ERROR IN DB WHILE CLOSING DB insertOrderItemTable " + e.getMessage());
+			}
+
+		}
+		return insert;
+	}
+	
+	public int updateStocksTable(Connection connection,OrderItems oiReq)
+	{
+		PreparedStatement preStmt = null;
+		int insert = 0;
+		try {
+			preStmt = connection.prepareStatement(OrderQueryConstants.UPDATE_STOCKS);
+			preStmt.setInt(1, oiReq.getItem_quantity());
+			preStmt.setInt(2, oiReq.getProduct_id());
+			preStmt.setInt(3,  oiReq.getProduct_id());
+			insert = preStmt.executeUpdate();
+			
+		} catch (Exception e) {
+			LOGGER.debug(this.getClass(), "ERROR IN DB WHILE updateStocksTable " + e.getMessage());
+			e.printStackTrace();
+		} 
+		finally {
+			try {
+				preStmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				LOGGER.error(this.getClass(), "ERROR IN DB WHILE CLOSING DB updateStocksTable " + e.getMessage());
 			}
 
 		}
@@ -270,19 +298,19 @@ public class OrderDaoImpl implements OrderDao {
 			{
 				queryBuilder.append(" and o.created between to_timestamp(?,'YYYY-MM-DD HH24:MI:SS.S') and to_timestamp(?,'YYYY-MM-DD HH24:MI:SS.S')");
 			}
-			else
+			else if(orderFilter.getCustomer_id()==0 && orderFilter.getOrder_id()==0 && orderFilter.getStatus()==0)
 			{
 				queryBuilder.append(" and o.created >=current_timestamp - interval '10 day' and o.created <=current_timestamp");
 			}
-			if(orderFilter.getCustomer_id()!=0)
+			else if(orderFilter.getCustomer_id()!=0)
 			{
 				queryBuilder.append(" and o.customer_id = "+orderFilter.getCustomer_id());
 			}
-			if(orderFilter.getOrder_id()!=0)
+			else if(orderFilter.getOrder_id()!=0)
 			{
 				queryBuilder.append(" and o.order_id = "+orderFilter.getOrder_id());
 			}
-			if(orderFilter.getStatus()!=0)
+			else if(orderFilter.getStatus()!=0)
 			{
 				queryBuilder.append(" and o.order_status = "+orderFilter.getStatus());
 			}		

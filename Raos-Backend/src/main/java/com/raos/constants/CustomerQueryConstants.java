@@ -4,10 +4,10 @@ public interface CustomerQueryConstants {
 	
 	String LOGIN_CUSTOMER_CHECK = "select id,membership_flag from customers where mobileno=?";
 	
-	String CUSOMER_ADDRESS_INSERT = "insert into customer_address (customer_id,address_type,door_no,street_name,pincode,city,state,country,latitude,longitude,created,updated) values\r\n" + 
-			"(?,?,?,?,?,?,?,?,?,?,current_timestamp,current_timestamp)";
+	String CUSOMER_ADDRESS_INSERT = "insert into customer_address (id,customer_id,address_type,door_no,street_name,pincode,city,state,country,latitude,longitude,created,updated) values\r\n" + 
+			"(nextval('seq_addr_id'),?,?,?,?,?,?,?,?,?,?,current_timestamp,current_timestamp)";
 	
-	String CUSTOMER_ADDRESS_UPDATE = "update customer_addresses set customer_id=?,address_type=?,door_no=?,street_name=?,pincode=?,"
+	String CUSTOMER_ADDRESS_UPDATE = "update customer_address set customer_id=?,address_type=?,door_no=?,street_name=?,pincode=?,"
 			+ "city=?,state=?,country=?,latitude=?,longitude=?,updated=current_timestamp where id=?";
 	
 	String CUSTOMER_ADDRESS_DELETE = "delete from customer_address where id=?";

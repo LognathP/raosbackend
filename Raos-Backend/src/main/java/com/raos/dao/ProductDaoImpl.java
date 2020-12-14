@@ -125,7 +125,7 @@ public class ProductDaoImpl implements ProductDao {
 			while(res.next()) {
 				Product p = new Product();
 				p.setProduct_name(res.getString(1));
-				p.setDiscount_flag(res.getInt(2));
+				p.setDiscount_flag(res.getString(2));
 				p.setUnit_metrics(res.getInt(3));
 				p.setProduct_id(res.getInt(4));
 				p.setBalance_stock(res.getInt(5));

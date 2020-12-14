@@ -9,7 +9,7 @@ public class Product {
 
 	int product_id;
 	String product_name;
-	int discount_flag;
+	String discount_flag;
 	int unit_metrics;
 	int mrp_price;
 	int sales_price;

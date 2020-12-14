@@ -34,7 +34,7 @@ private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:s
 	}
 	
 	@PostMapping("/api/order/updateOrder")
-	public Object updateOrderStatus(int order_id,int order_status) {
+	public Object updateOrderStatus(@RequestParam int order_id,@RequestParam int order_status) {
 		Logger.info(this.getClass(),"UPDATE ORDER API CALL STARTED AT "+dateFormat.format(new Date()));
 		return orderBusiness.updateOrderStatus(order_id,order_status);
 	}

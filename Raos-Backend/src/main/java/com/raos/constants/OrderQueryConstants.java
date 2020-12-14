@@ -22,5 +22,5 @@ public interface OrderQueryConstants {
 	
 	String INSERT_VOUCHER_USAGE = "INSERT INTO voucher_usage (id, customer_id, voucher_id, order_id, created, updated) VALUES(nextval('seq_voucher_usage_id'), ?, ?, ?, current_date, current_date)";
 
-	
+	String UPDATE_STOCKS = "update stocks set balance_stock=(balance_stock - ?),updated=current_date where product_id = ?  and balance_stock = (select min(balance_stock) from stocks where  balance_stock !=0 and product_id = ?)";
 	}

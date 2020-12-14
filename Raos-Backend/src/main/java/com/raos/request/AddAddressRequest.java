@@ -11,7 +11,7 @@ import lombok.Setter;
 public class AddAddressRequest {
 
 	public int customer_id;
-	public String address_type;
+	public int address_type;
 	public String door_no;
 	public String street_name;
 	public String city;
